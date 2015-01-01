@@ -4,9 +4,15 @@ var jQuery = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
 
+var MenuView = require('./MenuView');
+
 var AppView = Backbone.View.extend({
   className: 'app',
   template: _.template(jQuery('#appTemplate').html()),
+
+  initialize: function () {
+    this.menu = new MenuView();
+  },
 
   changePage: function (view) {
     var previousView = this.currentPage || null;
@@ -33,6 +39,7 @@ var AppView = Backbone.View.extend({
 
   render: function () {
     this.$el.html(this.template());
+    this.$el.prepend(this.menu.render().el);
     return this;
   }
 });

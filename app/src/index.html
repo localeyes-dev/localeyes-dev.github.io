@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title> Localeyes </title>
+  <link rel="stylesheet" href="./css/main.css">
+</head>
+<body>
+
+  <!-- Templates -->
+
+  <!-- App -->
+  <script type="text/template" id="appTemplate">
+    <ul class="app__menu">
+      <li> <a href="#/"> Default </a> </li>
+      <li> <a href="#/help"> Help </a> </li>
+      <li> <a href="#/locals"> Locals </a> </li>
+      <li> <a href="#/city/london"> London </a> </li>
+    </ul>
+    <div class="app__content"></div>
+  </script>
+
+  <!-- Loader -->
+  <script type="text/template" id="loaderTemplate">
+    <h1> Loader </h1>
+    <p class="loader__progress">0%</p>
+  </script>
+
+  <!-- Locals -->
+  <script type="text/template" id="localsTemplate">
+    <h1> Locals </h1>
+    <ul class="locals__content"></ul>
+  </script>
+
+  <script type="text/template" id="coverTemplate">
+    <a href="#/local/<%= slug %>" class="local__name"> Local: <%= name %> </a>
+  </script>
+
+  <!-- Local -->
+  <script type="text/template" id="localTemplate">
+    <h1 class="local__name"> Local: <%= name %> </h1>
+    <p class="local__bio"> <%= bio %> </p>
+  </script>
+
+  <!-- Cities -->
+  <script type="text/template" id="citiesTemplate">
+    <h1> Cities </h1>
+    <div class="cities__direction cities__direction--north"></div>
+    <div class="cities__direction cities__direction--east"></div>
+    <div class="cities__direction cities__direction--south"></div>
+    <div class="cities__direction cities__direction--west"></div>
+    <div class="cities__content"></div>
+  </script>
+
+  <script type="text/template" id="cityTemplate">
+    <div class="city__content">
+      <h1> <%= name %> </h1> 
+    </div>
+  </script>
+
+  <!-- Help -->
+  <script type="text/template" id="helpTemplate">
+    <h1> Help </h1>
+  </script>
+
+  <!-- Initial data -->
+  <script type="text/javascript">
+    window.locals = [
+      {
+        "name": "James",
+        "bio": "The defaults hash (or function) can be used to specify the default attributes for your model."
+      },
+      {
+        "name": "Blake",
+        "bio": "When creating an instance of the model, any unspecified attributes will be set to their default value."
+      },
+      {
+        "name": "Peter Henry"
+      }
+    ];
+
+    window.cities = [
+      {
+        "name": "London",
+        "north": null,
+        "east": null,
+        "south": "Paris",
+        "east": null
+      },
+      {
+        "name": "Berlin",
+        "north": null,
+        "east": null,
+        "south": null,
+        "west": "Paris"
+      },
+      {
+        "name": "Paris",
+        "north": "London",
+        "east": "Berlin",
+        "south": null,
+        "west": null
+      }
+    ];
+  </script>
+
+  <script type="text/javascript" src="./js/vendor.js"></script>
+  <script type="text/javascript" src="./js/main.js"></script>
+</body>
+</html>

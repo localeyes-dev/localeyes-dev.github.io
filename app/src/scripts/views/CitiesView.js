@@ -18,8 +18,7 @@ var CitiesView = Page.extend({
   },
 
   initialize: function () {
-    var map = this.getMap();
-    this.setCoordinates(map);
+    this.map = this.getMap();
   },
 
   onMouseOver: function (e) {
@@ -61,18 +60,18 @@ var CitiesView = Page.extend({
     ];
 
     this.collection.each(function (city, i) {
-      var name = city.get('name');
-      var location = i === 0 ? { left: 0, top: 0 } : map[name];
+      var slug = city.get('slug');
+      var position = i === 0 ? { left: 0, top: 0 } : map[slug];
 
-      if (!map[name]) {
-        map[name] = location;
+      if (!map[slug]) {
+        map[slug] = position;
       }
 
       _.each(directions, function (direction) {
-        var value = city.get(direction.name);
+        var value = city.get(direction.name + 'Slug');
 
         if (value && !map[value]) {
-          var valueLocation = _.clone(location);
+          var valueLocation = _.clone(position);
           valueLocation.top += direction.top;
           valueLocation.left += direction.left;
           map[value] = valueLocation;
@@ -80,32 +79,20 @@ var CitiesView = Page.extend({
       });
     });
 
-    console.log(map);
-
     return map;
-  },
-
-  setCoordinates: function (map) {
-    // set locations on models
-    // locations can also be passed with model
-    // need to update CityModel
-    for (var key in map) {
-      if (map.hasOwnProperty(key)) {
-        var city = this.collection.findWhere({ name: key });
-        city.set({
-          location: { left: map[key].left, top: map[key].top }
-        });
-      }
-    }
   },
 
   renderCities: function () {
     var $els = [];
 
     this.collection.each(function (city) {
-      var view = new CityView({ model: city });
+      var slug = city.get('slug');
+      var view = new CityView({
+        model: city,
+        position: this.map[slug]
+      });
       $els.push(view.render().el);
-    });
+    }, this);
 
     return $els;
   },

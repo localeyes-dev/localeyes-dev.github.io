@@ -2,15 +2,18 @@
 
 var Backbone = require('backbone');
 
+var slug = require('../utils/slug');
+
 var LocalModel = Backbone.Model.extend({
   defaults: {
-    'name': 'unnamed',
-    'bio': 'No bio provided'
+    'name': undefined,
+    'slug': undefined,
+    'bio': undefined
   },
 
   initialize: function () {
     if (!this.has('slug')) {
-      this.set({ slug: this.get('name').toLowerCase().replace(' ', '_') });
+      this.set({ slug: slug(this.get('name')) });
     }
   }
 });

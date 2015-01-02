@@ -8,20 +8,23 @@ var CityView = Backbone.View.extend({
   className: 'city',
   template: _.template(jQuery('#cityTemplate').html()),
 
+  initialize: function (options) {
+    _.extend(this, _.pick(options, 'position'));
+  },
+
   setPosition: function () {
-    var location = this.model.get('location');
     this.$el.css({
-      left: (location.left * 100) + '%',
-      top: (location.top * 100) + '%'
+      left: (this.position.left * 100) + '%',
+      top: (this.position.top * 100) + '%'
     });
   },
 
   centerContent: function () {
-    var $name = this.$('.city__content');
+    var $content = this.$('.city__content');
     _.delay(function () {
-      $name.css({
-        marginTop: -1 * ($name.height() / 2),
-        marginLeft: -1 * ($name.width() / 2)
+      $content.css({
+        marginTop: -1 * ($content.height() / 2),
+        marginLeft: -1 * ($content.width() / 2)
       });
     }, 50);
   },

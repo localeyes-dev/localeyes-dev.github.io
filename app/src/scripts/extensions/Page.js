@@ -3,6 +3,8 @@
 var Backbone = require('backbone');
 
 var Page = Backbone.View.extend({
+  name: '',
+  
   in: function () {
     this.$el.css('opacity', 0);
     this.$el.velocity({

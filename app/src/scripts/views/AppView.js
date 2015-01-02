@@ -37,6 +37,12 @@ var AppView = Backbone.View.extend({
     }
   },
 
+  getCurrentPage: function () {
+    if (this.currentPage) {
+      return this.currentPage.name;
+    }
+  },
+
   render: function () {
     this.$el.html(this.template());
     this.$el.prepend(this.menu.render().el);

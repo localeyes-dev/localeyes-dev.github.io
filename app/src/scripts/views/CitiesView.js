@@ -9,6 +9,7 @@ var Page = require('../extensions/Page');
 var CityView = require('./CityView');
 
 var CitiesView = Page.extend({
+  name: 'cities',
   className: 'cities',
   template: _.template(jQuery('#citiesTemplate').html()),
 
@@ -17,8 +18,11 @@ var CitiesView = Page.extend({
     'mouseout .cities__direction': 'onMouseOut'
   },
 
-  initialize: function () {
+  initialize: function (options) {
+    _.extend(this, _.pick(options, 'current'));
     this.map = this.getMap();
+
+    console.log(this.map.getPosition(this.current));
   },
 
   onMouseOver: function (e) {
@@ -79,6 +83,17 @@ var CitiesView = Page.extend({
       });
     });
 
+    map = _.extend(map, {
+      getPosition: function (slug) {
+        if (!this[slug]) {
+          console.error(slug + ' is not present in map');
+          return false;
+        }
+
+        return this[slug];
+      }
+    });
+
     return map;
   },
 
@@ -87,19 +102,43 @@ var CitiesView = Page.extend({
 
     this.collection.each(function (city) {
       var slug = city.get('slug');
-      var view = new CityView({
-        model: city,
-        position: this.map[slug]
-      });
+      var view = new CityView({ model: city, position: this.map.getPosition(slug) });
       $els.push(view.render().el);
     }, this);
 
     return $els;
   },
 
+  goTo: function (slug, transition) {
+    var position = this.map.getPosition(slug);
+
+    if (!position) {
+      return false;
+    }
+
+    var props = {
+      top: -1 * (position.top * 100) + '%',
+      left: -1 * (position.left * 100) + '%'
+    };
+
+    if (transition) {
+      this.$('.cities__content').velocity('stop').velocity(props, { duration: 800 });
+    } else {
+      this.$('.cities__content').css(props);
+    }
+  },
+
+  setCurrent: function (slug) {
+    if (slug !== this.current) {
+      this.goTo(slug, true);
+      this.current = slug;
+    }
+  },
+
   render: function () {
     this.$el.html(this.template());
     this.$('.cities__content').html(this.renderCities());
+    this.goTo(this.current, false);
     return this;
   }
 });

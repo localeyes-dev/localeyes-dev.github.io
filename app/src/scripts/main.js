@@ -69,11 +69,16 @@ router.on('route:local', function (slug) {
   app.changePage(view);
 });
 
+var citiesView;
 router.on('route:city', function (slug) {
-  var cities = getCities();
-  var city = cities.findWhere({ slug: slug });
-  var view = new CitiesView({ collection: cities, model: city });
-  app.changePage(view);
+  if (app.getCurrentPage() === 'cities') {
+    citiesView.setCurrent(slug);
+  } else {
+    var cities = getCities();
+    var city = cities.findWhere({ slug: slug });
+    citiesView = new CitiesView({ collection: cities, model: city, current: slug });
+    app.changePage(citiesView);
+  }
 });
 
 Backbone.history.start();

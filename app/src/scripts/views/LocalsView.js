@@ -9,6 +9,7 @@ var Page = require('../extensions/Page');
 var CoverView = require('./CoverView');
 
 var LocalsView = Page.extend({
+  name: 'locals',
   className: 'locals',
   template: _.template(jQuery('#localsTemplate').html()),
 

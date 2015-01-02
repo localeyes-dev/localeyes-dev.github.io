@@ -7,6 +7,7 @@ var Backbone = require('backbone');
 var Page = require('../extensions/Page');
 
 var LocalView = Page.extend({
+  name: 'local',
   className: 'local',
   template: _.template(jQuery('#localTemplate').html()),
 

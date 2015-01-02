@@ -24,6 +24,22 @@ var HelpView = require('./views/HelpView');
 var locals;
 var cities;
 
+function getLocals () {
+  if (!locals) {
+    locals = new LocalsCollection(window.locals);
+  }
+
+  return locals;
+};
+
+function getCities () {
+  if (!cities) {
+    cities = new CitiesCollection(window.cities);
+  }
+
+  return cities;
+};
+
 // main
 var app = new AppView();
 $('body').html(app.render().el);
@@ -41,29 +57,20 @@ router.on('route:help', function () {
 });
 
 router.on('route:locals', function () {
-  if (!locals) {
-    locals = new LocalsCollection(window.locals);
-  }
-
+  var locals = getLocals();
   var view = new LocalsView({ collection: locals });
   app.changePage(view);
 });
 
 router.on('route:local', function (slug) {
-  if (!locals) {
-    locals = new LocalsCollection(window.locals);
-  }
-  
+  var locals = getLocals();
   var local = locals.findWhere({ slug: slug });
   var view = new LocalView({ model: local });
   app.changePage(view);
 });
 
 router.on('route:city', function (slug) {
-  if (!cities) {
-    cities = new CitiesCollection(window.cities);
-  }
-
+  var cities = getCities();
   var city = cities.findWhere({ slug: slug });
   var view = new CitiesView({ collection: cities, model: city });
   app.changePage(view);

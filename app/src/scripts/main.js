@@ -20,6 +20,9 @@ var LocalView = require('./views/LocalView');
 var CitiesView = require('./views/CitiesView');
 var HelpView = require('./views/HelpView');
 
+// utils
+var random = require('./utils/random');
+
 // cached collections
 var locals;
 var cities;
@@ -70,12 +73,23 @@ router.on('route:local', function (slug) {
 });
 
 var citiesView;
+
 router.on('route:city', function (slug) {
+  console.log(app.getCurrentPage());
   if (app.getCurrentPage() === 'cities') {
-    citiesView.setCurrent(slug);
+    citiesView.setCurrentCity(slug);
   } else {
     var cities = getCities();
-    var city = cities.findWhere({ slug: slug });
+
+    var city;
+
+    if (slug) {
+      city = cities.findWhere({ slug: slug });
+    } else {
+      city = cities.at(random(0, cities.length, true));
+      slug = city.get('slug');
+    }
+
     citiesView = new CitiesView({ collection: cities, model: city, current: slug });
     app.changePage(citiesView);
   }

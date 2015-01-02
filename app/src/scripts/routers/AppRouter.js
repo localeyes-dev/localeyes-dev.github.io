@@ -8,6 +8,7 @@ var AppRouter = Backbone.Router.extend({
     'help': 'help',
     'locals': 'locals',
     'local/:slug': 'local',
+    'city': 'city',
     'city/:slug': 'city'
   }
 });

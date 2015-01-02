@@ -25,6 +25,9 @@
       <a href="#/locals" class="menu__link"> Locals </a>
     </li>
     <li class="menu__item">
+      <a href="#/city" class="menu__link"> Random city </a>
+    </li>
+    <li class="menu__item">
       <a href="#/city/london" class="menu__link"> London </a>
     </li>
   </script>
@@ -53,11 +56,6 @@
 
   <!-- Cities -->
   <script type="text/template" id="citiesTemplate">
-    <h1> Cities </h1>
-    <div class="cities__direction cities__direction--north"></div>
-    <div class="cities__direction cities__direction--east"></div>
-    <div class="cities__direction cities__direction--south"></div>
-    <div class="cities__direction cities__direction--west"></div>
     <div class="cities__content"></div>
   </script>
 
@@ -65,6 +63,13 @@
     <div class="city__content">
       <h1> <%= name %> </h1> 
     </div>
+  </script>
+
+  <script type="text/template" id="frameTemplate">
+    <a class="frame__direction frame__direction--north"></a>
+    <a class="frame__direction frame__direction--east"></a>
+    <a class="frame__direction frame__direction--south"></a>
+    <a class="frame__direction frame__direction--west"></a>
   </script>
 
   <!-- Help -->

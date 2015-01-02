@@ -5,7 +5,9 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 
 var Page = require('../extensions/Page');
-
+var FrameModel = require('../models/FrameModel');
+var MapModel = require('../models/MapModel');
+var FrameView = require('./FrameView');
 var CityView = require('./CityView');
 
 var CitiesView = Page.extend({
@@ -15,102 +17,59 @@ var CitiesView = Page.extend({
 
   events: {
     'mouseover .cities__direction': 'onMouseOver',
-    'mouseout .cities__direction': 'onMouseOut'
+    'mouseout .cities__direction': 'onMouseOut',
+    'click .cities__direction': 'onClick'
   },
 
   initialize: function (options) {
     _.extend(this, _.pick(options, 'current'));
-    this.map = this.getMap();
 
-    console.log(this.map.getPosition(this.current));
+    this.onKeydown = _.bind(this.onKeydown, this);
+    jQuery(document).on('keydown', this.onKeydown);
+
+    this.map = new MapModel({ collection: this.collection });
+    this.frame = new FrameView({ model: new FrameModel() });
   },
 
-  onMouseOver: function (e) {
-    var $el = jQuery(e.currentTarget);
-    var props;
+  remove: function () {
+    Backbone.View.prototype.remove.call(this);
+    jQuery(document).off('keydown', this.onKeydown);
+  },
 
-    if ($el.hasClass('cities__direction--north')
-      || $el.hasClass('cities__direction--south')) {
-      props = { height: 50 };
-    } else {
-      props = { width: 50 };
+  onKeydown: function (e) {
+    var directions = this.map.get(this.current).directions;
+
+    var charCode = (e.charCode) ? e.charCode : e.keyCode;
+
+    switch (charCode) {
+      case 38:
+        console.log('up');
+        console.log(directions.north);
+        break;
+
+      case 39:
+        console.log('right');
+        break;
+
+      case 40:
+        console.log('down');
+        break;
+
+      case 37:
+        console.log('left');
+        break;
     }
-
-    $el.velocity('stop').velocity(props, { duration: 300 });
   },
 
-  onMouseOut: function (e) {
-    var $el = jQuery(e.currentTarget);
-    var props;
-
-    if ($el.hasClass('cities__direction--north')
-      || $el.hasClass('cities__direction--south')) {
-      props = { height: 30 };
-    } else {
-      props = { width: 30 };
+  setCurrentCity: function (slug) {
+    if (slug !== this.current && this.collection.findWhere({ slug: slug })) {
+      this.current = slug;
+      this.updatePosition(true);
     }
-
-    $el.velocity('stop').velocity(props, { duration: 300 });
   },
 
-  getMap: function () {
-    var map = {};
-
-    var directions = [
-      { name: 'north', left: 0, top: -1 },
-      { name: 'east', left: 1, top: 0 },
-      { name: 'south', left: 0, top: 1 },
-      { name: 'west', left: -1, top: 0 }
-    ];
-
-    this.collection.each(function (city, i) {
-      var slug = city.get('slug');
-      var position = i === 0 ? { left: 0, top: 0 } : map[slug];
-
-      if (!map[slug]) {
-        map[slug] = position;
-      }
-
-      _.each(directions, function (direction) {
-        var value = city.get(direction.name + 'Slug');
-
-        if (value && !map[value]) {
-          var valueLocation = _.clone(position);
-          valueLocation.top += direction.top;
-          valueLocation.left += direction.left;
-          map[value] = valueLocation;
-        }
-      });
-    });
-
-    map = _.extend(map, {
-      getPosition: function (slug) {
-        if (!this[slug]) {
-          console.error(slug + ' is not present in map');
-          return false;
-        }
-
-        return this[slug];
-      }
-    });
-
-    return map;
-  },
-
-  renderCities: function () {
-    var $els = [];
-
-    this.collection.each(function (city) {
-      var slug = city.get('slug');
-      var view = new CityView({ model: city, position: this.map.getPosition(slug) });
-      $els.push(view.render().el);
-    }, this);
-
-    return $els;
-  },
-
-  goTo: function (slug, transition) {
-    var position = this.map.getPosition(slug);
+  updatePosition: function (transition) {
+    var position = this.map.get(this.current).position;
 
     if (!position) {
       return false;
@@ -126,19 +85,30 @@ var CitiesView = Page.extend({
     } else {
       this.$('.cities__content').css(props);
     }
+
+    var directions = this.map.get(this.current).directions;
+    this.frame.model.set(directions);
   },
 
-  setCurrent: function (slug) {
-    if (slug !== this.current) {
-      this.goTo(slug, true);
-      this.current = slug;
-    }
+  renderCities: function () {
+    var $els = [];
+
+    this.collection.each(function (city) {
+      var slug = city.get('slug');
+      var view = new CityView({ model: city, position: this.map.get(slug).position });
+      $els.push(view.render().el);
+    }, this);
+
+    return $els;
   },
 
   render: function () {
     this.$el.html(this.template());
+    this.$el.prepend(this.frame.render().el);
     this.$('.cities__content').html(this.renderCities());
-    this.goTo(this.current, false);
+
+    this.updatePosition(false);
+
     return this;
   }
 });

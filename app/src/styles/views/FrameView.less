@@ -1,0 +1,49 @@
+.frame {
+
+}
+
+.frame__direction {
+  background-color: #000000;
+  position: absolute;
+  z-index: 2;
+
+  -webkit-transition: background-color 1s;
+  -o-transition: background-color 1s;
+  transition: background-color 1s;
+}
+
+.frame__direction.is-inactive {
+  background-color: #E5E5E5;
+}
+
+.frame__direction--north,
+.frame__direction--south {
+  height: 30px;
+  width: 100%;
+}
+
+.frame__direction--east,
+.frame__direction--west {
+  width: 30px;
+  height: 100%;
+}
+
+.frame__direction--north {
+  top: 0;
+  left: 0;
+}
+
+.frame__direction--east {
+  top: 0;
+  right: 0;
+}
+
+.frame__direction--south {
+  bottom: 0;
+  left: 0;
+}
+
+.frame__direction--west {
+  top: 0;
+  left: 0;
+}

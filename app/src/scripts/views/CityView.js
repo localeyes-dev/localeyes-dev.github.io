@@ -18,7 +18,7 @@ var CityView = Backbone.View.extend({
 
   centerContent: function () {
     var $name = this.$('.city__content');
-    setTimeout(function () {
+    _.delay(function () {
       $name.css({
         marginTop: -1 * ($name.height() / 2),
         marginLeft: -1 * ($name.width() / 2)

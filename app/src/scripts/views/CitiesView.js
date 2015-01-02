@@ -99,22 +99,20 @@ var CitiesView = Page.extend({
     }
   },
 
-  goTo: function (city) {
-    
-  },
-
   renderCities: function () {
-    var $content = this.$('.cities__content');
+    var $els = [];
 
     this.collection.each(function (city) {
       var view = new CityView({ model: city });
-      $content.prepend(view.render().el);
+      $els.push(view.render().el);
     });
+
+    return $els;
   },
 
   render: function () {
     this.$el.html(this.template());
-    this.renderCities();
+    this.$('.cities__content').html(this.renderCities());
     return this;
   }
 });

@@ -13,17 +13,19 @@ var LocalsView = Page.extend({
   template: _.template(jQuery('#localsTemplate').html()),
 
   renderCovers: function () {
-    var $content = this.$('.locals__content');
+    var $els = [];
 
     this.collection.each(function (local) {
       var view = new CoverView({ model: local });
-      $content.prepend(view.render().el);
+      $els.push(view.render().el)
     });
+
+    return $els;
   },
 
   render: function () {
     this.$el.html(this.template());
-    this.renderCovers();
+    this.$('.locals__content').html(this.renderCovers());
     return this;
   }
 });

@@ -8,91 +8,63 @@ Backbone.$ = jQuery;
 // router
 var AppRouter = require('./routers/AppRouter');
 
-// collections
-var LocalsCollection = require('./collections/LocalsCollection');
-var CitiesCollection = require('./collections/CitiesCollection');
-
 // views
 var AppView = require('./views/AppView');
 var LoaderView = require('./views/LoaderView');
+var HelpView = require('./views/HelpView');
 var LocalsView = require('./views/LocalsView');
 var LocalView = require('./views/LocalView');
 var CitiesView = require('./views/CitiesView');
-var HelpView = require('./views/HelpView');
 
 // utils
 var random = require('./utils/random');
 
-// cached collections
-var locals;
-var cities;
-
-function getLocals () {
-  if (!locals) {
-    locals = new LocalsCollection(window.locals);
-  }
-
-  return locals;
-};
-
-function getCities () {
-  if (!cities) {
-    cities = new CitiesCollection(window.cities);
-  }
-
-  return cities;
-};
+// modules
+var Store = require('./modules/Store');
 
 // main
 var app = new AppView();
-$('body').html(app.render().el);
+jQuery('.container').html(app.render().el);
 
 var router = new AppRouter();
 
 router.on('route:default', function () {
-  var view = new LoaderView();
-  app.changePage(view);
+  app.changeView(new LoaderView());
 });
 
 router.on('route:help', function () {
-  var view = new HelpView();
-  app.changePage(view);
+  app.changeView(new HelpView());
 });
 
 router.on('route:locals', function () {
-  var locals = getLocals();
-  var view = new LocalsView({ collection: locals });
-  app.changePage(view);
+  app.changeView(new LocalsView({ collection: Store.getLocals() }));
 });
 
 router.on('route:local', function (slug) {
-  var locals = getLocals();
-  var local = locals.findWhere({ slug: slug });
-  var view = new LocalView({ model: local });
-  app.changePage(view);
+  var local = Store.getLocals().findWhere({ slug: slug });
+  app.changeView(new LocalView({ model: local }));
 });
 
 var citiesView;
 
 router.on('route:city', function (slug) {
-  console.log(app.getCurrentPage());
-  if (app.getCurrentPage() === 'cities') {
-    citiesView.setCurrentCity(slug);
-  } else {
-    var cities = getCities();
-
-    var city;
-
-    if (slug) {
-      city = cities.findWhere({ slug: slug });
-    } else {
-      city = cities.at(random(0, cities.length, true));
-      slug = city.get('slug');
-    }
-
-    citiesView = new CitiesView({ collection: cities, model: city, current: slug });
-    app.changePage(citiesView);
+  // update current view
+  var currentView = app.currentView();
+  if (currentView && currentView.name === 'cities' && citiesView) {
+    return citiesView.changeCity(slug);
   }
+
+  // create view
+  var cities = Store.getCities();
+
+  function randomSlug () {
+    return cities.at(random(0, cities.length, true)).get('slug');
+  };
+
+  slug = slug ? cities.findWhere({ slug: slug }) ? slug : randomSlug() : randomSlug();
+
+  citiesView = new CitiesView({ collection: cities, current: slug });
+  app.changeView(citiesView);
 });
 
 Backbone.history.start();

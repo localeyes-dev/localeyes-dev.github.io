@@ -9,7 +9,7 @@ var Page = require('../extensions/Page');
 var HelpView = Page.extend({
   name: 'help',
   className: 'help',
-  template: _.template(jQuery('#helpTemplate').html()),
+  template: '#helpTemplate',
 
   render: function () {
     this.$el.html(this.template());

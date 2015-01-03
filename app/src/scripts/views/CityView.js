@@ -4,11 +4,13 @@ var jQuery = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
 
-var CityView = Backbone.View.extend({
-  className: 'city',
-  template: _.template(jQuery('#cityTemplate').html()),
+var BetterView = require('../extensions/BetterView');
 
-  initialize: function (options) {
+var CityView = BetterView.extend({
+  className: 'city',
+  template: '#cityTemplate',
+
+  onInitialize: function (options) {
     _.extend(this, _.pick(options, 'position'));
   },
 

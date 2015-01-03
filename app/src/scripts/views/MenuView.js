@@ -4,10 +4,12 @@ var jQuery = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
 
-var MenuView = Backbone.View.extend({
+var BetterView = require('../extensions/BetterView');
+
+var MenuView = BetterView.extend({
   tagName: 'ul',
   className: 'menu',
-  template: _.template(jQuery('#menuTemplate').html()),
+  template: '#menuTemplate',
 
   render: function () {
     this.$el.html(this.template());

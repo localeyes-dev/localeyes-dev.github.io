@@ -7,6 +7,8 @@
 </head>
 <body>
 
+  <div class="container"></div>
+
   <!-- Templates -->
 
   <!-- App -->
@@ -34,8 +36,14 @@
 
   <!-- Loader -->
   <script type="text/template" id="loaderTemplate">
-    <h1> Loader </h1>
-    <p class="loader__progress">0%</p>
+    <div class="loader">
+      <h1> Loader </h1>
+      <p class="loader__progress">0%</p>
+    </div>
+  </script>
+
+  <script type="text/template" id="helpTemplate">
+    <h1> Help </h1>
   </script>
 
   <!-- Locals -->
@@ -70,11 +78,6 @@
     <a class="frame__direction frame__direction--east"></a>
     <a class="frame__direction frame__direction--south"></a>
     <a class="frame__direction frame__direction--west"></a>
-  </script>
-
-  <!-- Help -->
-  <script type="text/template" id="helpTemplate">
-    <h1> Help </h1>
   </script>
 
   <!-- Initial data -->

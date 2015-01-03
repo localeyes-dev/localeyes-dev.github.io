@@ -4,10 +4,12 @@ var jQuery = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
 
-var CoverView = Backbone.View.extend({
+var BetterView = require('../extensions/BetterView');
+
+var CoverView = BetterView.extend({
   tagName: 'li',
   className: 'cover',
-  template: _.template(jQuery('#coverTemplate').html()),
+  template: '#coverTemplate',
 
   render: function () {
     this.$el.html(this.template(this.model.toJSON()));

@@ -6,27 +6,25 @@ var Backbone = require('backbone');
 
 var Page = require('../extensions/Page');
 
+var LocalsCollection = require('../collections/LocalsCollection');
+
 var CoverView = require('./CoverView');
 
 var LocalsView = Page.extend({
   name: 'locals',
   className: 'locals',
-  template: _.template(jQuery('#localsTemplate').html()),
+  template: '#localsTemplate',
 
-  renderCovers: function () {
-    var $els = [];
-
-    this.collection.each(function (local) {
-      var view = new CoverView({ model: local });
-      $els.push(view.render().el)
+  onInitialize: function () {
+    this.collection = this.collection || new LocalsCollection();
+    this.covers = this.collection.map(function (local) {
+      return new CoverView({ model: local });
     });
-
-    return $els;
   },
 
   render: function () {
     this.$el.html(this.template());
-    this.$('.locals__content').html(this.renderCovers());
+    this.appendTo('.locals__content', this.covers);
     return this;
   }
 });

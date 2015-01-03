@@ -5,15 +5,19 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 
 var Page = require('../extensions/Page');
+
 var FrameModel = require('../models/FrameModel');
 var MapModel = require('../models/MapModel');
+
+var CitiesCollection = require('../collections/CitiesCollection');
+
 var FrameView = require('./FrameView');
 var CityView = require('./CityView');
 
 var CitiesView = Page.extend({
   name: 'cities',
   className: 'cities',
-  template: _.template(jQuery('#citiesTemplate').html()),
+  template: '#citiesTemplate',
 
   events: {
     'mouseover .cities__direction': 'onMouseOver',
@@ -21,18 +25,22 @@ var CitiesView = Page.extend({
     'click .cities__direction': 'onClick'
   },
 
-  initialize: function (options) {
+  onInitialize: function (options) {
     _.extend(this, _.pick(options, 'current'));
 
     this.onKeydown = _.bind(this.onKeydown, this);
     jQuery(document).on('keydown', this.onKeydown);
 
+    this.collection = this.collection || new CitiesCollection();
+
     this.map = new MapModel({ collection: this.collection });
     this.frame = new FrameView({ model: new FrameModel() });
+    this.cities = this.collection.map(function (city) {
+      return new CityView({ model: city, position: this.map.get(city.get('slug')).position });
+    }, this);
   },
 
-  remove: function () {
-    Backbone.View.prototype.remove.call(this);
+  onRemove: function () {
     jQuery(document).off('keydown', this.onKeydown);
   },
 
@@ -61,7 +69,7 @@ var CitiesView = Page.extend({
     }
   },
 
-  setCurrentCity: function (slug) {
+  changeCity: function (slug) {
     if (slug !== this.current && this.collection.findWhere({ slug: slug })) {
       this.current = slug;
       this.updatePosition(true);
@@ -90,25 +98,11 @@ var CitiesView = Page.extend({
     this.frame.model.set(directions);
   },
 
-  renderCities: function () {
-    var $els = [];
-
-    this.collection.each(function (city) {
-      var slug = city.get('slug');
-      var view = new CityView({ model: city, position: this.map.get(slug).position });
-      $els.push(view.render().el);
-    }, this);
-
-    return $els;
-  },
-
   render: function () {
     this.$el.html(this.template());
-    this.$el.prepend(this.frame.render().el);
-    this.$('.cities__content').html(this.renderCities());
-
+    this.prepend(this.frame);
+    this.appendTo('.cities__content', this.cities);
     this.updatePosition(false);
-
     return this;
   }
 });

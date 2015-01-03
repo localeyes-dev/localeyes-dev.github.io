@@ -4,28 +4,27 @@ var jQuery = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
 
+var BetterView = require('../extensions/BetterView');
+
 var MenuView = require('./MenuView');
 
-var AppView = Backbone.View.extend({
+var AppView = BetterView.extend({
   className: 'app',
-  template: _.template(jQuery('#appTemplate').html()),
-
-  initialize: function () {
+  template: '#appTemplate',
+  
+  onInitialize: function () {
     this.menu = new MenuView();
   },
 
-  changePage: function (view) {
-    var previousView = this.currentPage || null;
+  changeView: function (view) {
+    var previousView = this.view || null;
     var nextView = view;
 
-    var _this = this;
-
-    function next () {
-      nextView.render();
-      _this.$('.app__content').append(nextView.$el);
+    var next = _.bind(function () {
+      this.appendTo('.app__content', nextView);
+      this.view = nextView;
       nextView.in();
-      _this.currentPage = nextView;
-    }
+    }, this);
 
     if (previousView) {
       previousView.out(function () {
@@ -37,15 +36,15 @@ var AppView = Backbone.View.extend({
     }
   },
 
-  getCurrentPage: function () {
-    if (this.currentPage) {
-      return this.currentPage.name;
+  currentView: function () {
+    if (this.view) {
+      return this.view;
     }
   },
 
   render: function () {
     this.$el.html(this.template());
-    this.$el.prepend(this.menu.render().el);
+    this.prepend(this.menu);
     return this;
   }
 });

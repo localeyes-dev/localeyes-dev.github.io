@@ -2,7 +2,9 @@
 
 var Backbone = require('backbone');
 
-var Page = Backbone.View.extend({
+var BetterView = require('./BetterView');
+
+var Page = BetterView.extend({
   name: '',
   
   in: function () {

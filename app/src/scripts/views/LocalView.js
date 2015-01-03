@@ -6,42 +6,15 @@ var Backbone = require('backbone');
 
 var Page = require('../extensions/Page');
 
+var LocalModel = require('../models/LocalModel');
+
 var LocalView = Page.extend({
   name: 'local',
   className: 'local',
-  template: _.template(jQuery('#localTemplate').html()),
+  template: '#localTemplate',
 
-  in: function () {
-    this.$('.local__name').css('opacity', 0);
-    this.$('.local__name').velocity({
-      opacity: 1
-    }, {
-      duration: 500
-    });
-
-    this.$('.local__bio').css('opacity', 0);
-    this.$('.local__bio').velocity({
-      opacity: 1
-    }, {
-      delay: 200,
-      duration: 500
-    });
-  },
-
-  out: function (done) {
-    this.$('.local__name').velocity({
-      opacity: 0
-    }, {
-      duration: 500
-    });
-
-    this.$('.local__bio').velocity({
-      opacity: 0
-    }, {
-      delay: 200,
-      duration: 500,
-      complete: done
-    });
+  onInitialize: function () {
+    this.model = this.model || new LocalModel();
   },
 
   render: function () {

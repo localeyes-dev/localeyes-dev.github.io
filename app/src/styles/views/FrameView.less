@@ -6,8 +6,6 @@
   z-index: 2;
 
   text-align: center;
-
-  .transition(background-color 1s, top 0.5s, bottom 0.5s, left 0.5s, right 0.5s);
 }
 
 .frame__bar--north,
@@ -40,22 +38,6 @@
 .frame__bar--west {
   top: 0;
   left: 0;
-}
-
-.frame__bar--north.is-inactive {
-  top: -30px;
-}
-
-.frame__bar--east.is-inactive {
-  right: -30px;
-}
-
-.frame__bar--south.is-inactive {
-  bottom: -30px;
-}
-
-.frame__bar--west.is-inactive {
-  left: -30px;
 }
 
 // parts
@@ -102,6 +84,8 @@
   position: absolute;
 
   background-image: url('../../public/images/frame-arrows.png');
+
+  .transition(background-position 0.5s);
 }
 
 .frame__bar__arrow--north,
@@ -144,4 +128,21 @@
   right: 0;
 
   background-position: -40px 0;
+}
+
+// inactive
+.is-inactive .frame__bar__arrow--north {
+  background-position: -20px 10px;
+}
+
+.is-inactive .frame__bar__arrow--east {
+  background-position: -50px -20px;
+}
+
+.is-inactive .frame__bar__arrow--south {
+  background-position: 0 -10px;
+}
+
+.is-inactive .frame__bar__arrow--west {
+  background-position: -30px 0;
 }

@@ -9,7 +9,7 @@ var BetterView = require('../extensions/BetterView');
 var MenuView = BetterView.extend({
   tagName: 'ul',
   className: 'menu',
-  template: '#menuTemplate',
+  template: _.template(jQuery('#menuTemplate').html()),
 
   render: function () {
     this.$el.html(this.template());

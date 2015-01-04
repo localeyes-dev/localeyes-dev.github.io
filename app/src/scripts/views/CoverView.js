@@ -9,7 +9,7 @@ var BetterView = require('../extensions/BetterView');
 var CoverView = BetterView.extend({
   tagName: 'li',
   className: 'cover',
-  template: '#coverTemplate',
+  template: _.template(jQuery('#coverTemplate').html()),
 
   render: function () {
     this.$el.html(this.template(this.model.toJSON()));

@@ -24,7 +24,7 @@ var Store = require('./modules/Store');
 
 // main
 var app = new AppView();
-jQuery('.container').html(app.render().el);
+jQuery('body').html(app.render().el);
 
 var router = new AppRouter();
 

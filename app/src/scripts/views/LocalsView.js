@@ -13,7 +13,7 @@ var CoverView = require('./CoverView');
 var LocalsView = Page.extend({
   name: 'locals',
   className: 'locals',
-  template: '#localsTemplate',
+  template: _.template(jQuery('#localsTemplate').html()),
 
   onInitialize: function () {
     this.collection = this.collection || new LocalsCollection();

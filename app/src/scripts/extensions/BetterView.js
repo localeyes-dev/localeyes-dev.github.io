@@ -5,13 +5,6 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 
 var BetterView = Backbone.View.extend({
-  template: '',
-
-  constructor: function () {
-    this.template = _.template(jQuery(this.template).html());
-    Backbone.View.prototype.constructor.apply(this, arguments);
-  },
-
   initialize: function () {
     this.onInitialize.apply(this, arguments);
     Backbone.View.prototype.initialize.apply(this, arguments);

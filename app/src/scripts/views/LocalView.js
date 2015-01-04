@@ -11,7 +11,7 @@ var LocalModel = require('../models/LocalModel');
 var LocalView = Page.extend({
   name: 'local',
   className: 'local',
-  template: '#localTemplate',
+  template: _.template(jQuery('#localTemplate').html()),
 
   onInitialize: function () {
     this.model = this.model || new LocalModel();

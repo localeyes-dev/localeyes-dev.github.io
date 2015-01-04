@@ -10,7 +10,7 @@ var MenuView = require('./MenuView');
 
 var AppView = BetterView.extend({
   className: 'app',
-  template: '#appTemplate',
+  template: _.template(jQuery('#appTemplate').html()),
   
   onInitialize: function () {
     this.menu = new MenuView();

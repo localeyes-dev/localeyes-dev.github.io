@@ -8,7 +8,7 @@ var BetterView = require('../extensions/BetterView');
 
 var CityView = BetterView.extend({
   className: 'city',
-  template: '#cityTemplate',
+  template: _.template(jQuery('#cityTemplate').html()),
 
   onInitialize: function (options) {
     _.extend(this, _.pick(options, 'position'));

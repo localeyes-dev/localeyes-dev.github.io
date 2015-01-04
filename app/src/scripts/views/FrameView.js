@@ -8,7 +8,7 @@ var BetterView = require('../extensions/BetterView');
 
 var FrameView = BetterView.extend({
   className: 'frame',
-  template: '#frameTemplate',
+  template: _.template(jQuery('#frameTemplate').html()),
 
   initialize: function () {
     this.listenTo(this.model, 'change', this.updateDirections);

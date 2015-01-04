@@ -17,7 +17,7 @@ var CityView = require('./CityView');
 var CitiesView = Page.extend({
   name: 'cities',
   className: 'cities',
-  template: '#citiesTemplate',
+  template: _.template(jQuery('#citiesTemplate').html()),
 
   events: {
     'mouseover .frame__direction': 'onMouseOver',

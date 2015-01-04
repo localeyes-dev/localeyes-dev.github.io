@@ -9,7 +9,7 @@ var Page = require('../extensions/Page');
 var LoaderView = Page.extend({
   name: 'loader',
   className: 'loader',
-  template: '#loaderTemplate',
+  template: _.template(jQuery('#loaderTemplate').html()),
 
   render: function () {
     this.$el.html(this.template());

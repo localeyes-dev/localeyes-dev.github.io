@@ -17,7 +17,8 @@ var CityModel = Backbone.Model.extend({
     'northSlug': undefined,
     'eastSlug': undefined,
     'southSlug': undefined,
-    'westSlug': undefined
+    'westSlug': undefined,
+    'paths': []
   },
 
   initialize: function () {

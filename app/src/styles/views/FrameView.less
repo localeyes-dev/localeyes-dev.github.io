@@ -1,4 +1,5 @@
 @import '../mixins/transition';
+@import '../mixins/inlineBlock';
 
 // bars
 .frame__bar {
@@ -6,6 +7,8 @@
   z-index: 2;
 
   text-align: center;
+  text-decoration: none;
+  color: #000000;
 }
 
 .frame__bar--north,
@@ -85,7 +88,7 @@
 
   background-image: url('../../public/images/frame-arrows.png');
 
-  .transition(background-position 0.5s);
+  .transition(background-position .5s);
 }
 
 .frame__bar__arrow--north,
@@ -145,4 +148,37 @@
 
 .is-inactive .frame__bar__arrow--west {
   background-position: -30px 0;
+}
+
+// text
+.frame__text {
+  position: relative;
+  z-index: 2;
+
+  .transition(opacity 0.5s);
+}
+
+.frame__text--horizontal {
+  line-height: 40px;
+}
+
+.frame__text--vertical {
+  height: 100%;
+  width: 100%;
+  display: table;
+}
+
+.is-inactive .frame__text {
+  opacity: 0.2;
+}
+
+// letters
+.frame__letters--vertical {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+// letter
+.frame__letter--vertical {
+  display: block;
 }

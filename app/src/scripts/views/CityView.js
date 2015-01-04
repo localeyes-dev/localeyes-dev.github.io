@@ -51,7 +51,7 @@ var CityView = BetterView.extend({
 
     // icon
     this.$('.city__icon').css({ opacity: 0, top: -150 })
-      .velocity({ opacity: 1, top: -90 }, { duration: 500, delay: 1200 });
+      .velocity({ opacity: 1, top: -90 }, { duration: 800, delay: 1200 });
 
     // button
     this.$('.city__button').css({ opacity: 0, top: 50 })
@@ -62,6 +62,25 @@ var CityView = BetterView.extend({
 
     this.$('.city__border--left, .city__border--right').css('height', 0)
       .velocity({ height: '100%' }, { duration: 500, delay: 1400, display: 'block' });
+
+    // svg
+    this.$('svg').each(function () {
+      var $paths = jQuery('path', this);
+
+      $paths.each(function () {
+        var $path = jQuery(this);
+        var length = $path[0].getTotalLength();
+
+        $path.velocity({
+            'stroke-dashoffset': length,
+            'stroke-dasharray': length + ',' + length,
+            fillOpacity: 0,
+            strokeOpacity: 1
+          }, 0)
+          .velocity({ 'stroke-dashoffset': 0 }, { duration: 2000, delay: 1100 })
+          .velocity({ fillOpacity: 1, strokeOpacity: 0 }, { duration: 500 });
+      });
+    });
   },
 
   render: function () {

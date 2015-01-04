@@ -34,7 +34,7 @@ var CityView = BetterView.extend({
   render: function () {
     this.$el.html(this.template(this.model.toJSON()));
     this.setPosition();
-    this.centerContent();
+    // this.centerContent();
     return this;
   }
 });

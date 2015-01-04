@@ -60,19 +60,25 @@
   <!-- city -->
   <script type="text/template" id="cityTemplate">
     <div class="city__content">
-      <h1 class="city__name"> <% print(name.toUpperCase()); %> </h1>
-      <h2 class="city__country"> <% print(country.toUpperCase()); %> </h2>
-      <div class="city__button">
-        <a href="#" class="city__link"> DECOUVRIR </a>
-        <div class="city__border city__border--top"></div>
-        <div class="city__border city__border--left"></div>
-        <div class="city__border city__border--bottom"></div>
-        <div class="city__border city__border--right"></div>
+      <div class="city__content__section">
+        <div class="city__title">
+          <h1 class="city__name"> <% print(name.toUpperCase()); %> </h1>
+          <h2 class="city__country"> <% print(country.toUpperCase()); %> </h2>
+          <div class="city__square city__square--topLeft"></div>
+          <div class="city__square city__square--topRight"></div>
+          <div class="city__square city__square--bottomLeft"></div>
+          <div class="city__square city__square--bottomRight"></div>
+        </div>
       </div>
-      <div class="city__square city__square--topLeft"></div>
-      <div class="city__square city__square--topRight"></div>
-      <div class="city__square city__square--bottomLeft"></div>
-      <div class="city__square city__square--bottomRight"></div>
+      <div class="city__content__section city__content__section--button">
+        <div class="city__button">
+          <a href="#" class="city__link"> DECOUVRIR </a>
+          <div class="city__border city__border--top"></div>
+          <div class="city__border city__border--left"></div>
+          <div class="city__border city__border--bottom"></div>
+          <div class="city__border city__border--right"></div>
+        </div>
+      </div>
     </div>
   </script>
 

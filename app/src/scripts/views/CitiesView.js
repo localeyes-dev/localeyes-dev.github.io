@@ -193,11 +193,22 @@ var CitiesView = Page.extend({
     });
   },
 
+  setCity: function () {
+    var model = this.collection.findWhere({ slug: this.currentCity });
+    var view = _.findWhere(this.cities, { model: model });
+
+    view.in();
+
+    this.updatePosition(false);
+  },
+
   changeCity: function (slug) {
     var model = this.collection.findWhere({ slug: slug });
     var view = _.findWhere(this.cities, { model: model });
 
     if (slug !== this.currentCity && this.collection.findWhere({ slug: slug })) {
+      view.in();
+      
       this.currentCity = slug;
       this.updatePosition(true);
     }
@@ -240,7 +251,7 @@ var CitiesView = Page.extend({
     this.$el.html(this.template());
     this.prepend(this.frame);
     this.appendTo('.cities__content', this.cities);
-    this.updatePosition(false);
+    this.setCity();
     return this;
   }
 });

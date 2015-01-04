@@ -12,6 +12,7 @@ var CityView = BetterView.extend({
 
   onInitialize: function (options) {
     _.extend(this, _.pick(options, 'position'));
+    this.position = this.position || { left: 0, top: 0 };
   },
 
   setPosition: function () {
@@ -21,20 +22,51 @@ var CityView = BetterView.extend({
     });
   },
 
-  centerContent: function () {
-    var $content = this.$('.city__content');
-    _.delay(function () {
-      $content.css({
-        marginTop: -1 * ($content.height() / 2),
-        marginLeft: -1 * ($content.width() / 2)
-      });
-    }, 50);
+  in: function () {
+    var squareWidth = 5;
+
+    // squares
+    this.$('.city__square--topLeft').css({ top: '50%', left: '50%', opacity: 0 })
+      .velocity({ left: 0, opacity: 1 }, { duration: 400, delay: 500 })
+      .velocity({ top: 0 }, { duration: 400, delay: 200 });
+
+    this.$('.city__square--topRight').css({ top: '50%', right: '50%', opacity: 0 })
+      .velocity({ right: 0, opacity: 1 }, { duration: 400, delay: 500 })
+      .velocity({ top: 0 }, { duration: 400, delay: 200 });
+
+    this.$('.city__square--bottomLeft').css({ bottom: '50%', left: '50%', opacity: 0 })
+      .velocity({ left: 0, opacity: 1 }, { duration: 400, delay: 500 })
+      .velocity({ bottom: 0 }, { duration: 400, delay: 200 });
+
+    this.$('.city__square--bottomRight').css({ bottom: '50%', right: '50%', opacity: 0 })
+      .velocity({ right: 0, opacity: 1 }, { duration: 400, delay: 500 })
+      .velocity({ bottom: 0 }, { duration: 400, delay: 200 });
+
+    // text
+    this.$('.city__name').css({ opacity: 0, top: -90 })
+      .velocity({ opacity: 1, top: 0 }, { duration: 500, delay: 1100 });
+
+    this.$('.city__country').css({ opacity: 0, top: 50 })
+      .velocity({ opacity: 1, top: 0 }, { duration: 500, delay: 1200 });
+
+    // icon
+    this.$('.city__icon').css({ opacity: 0, top: -150 })
+      .velocity({ opacity: 1, top: -90 }, { duration: 500, delay: 1200 });
+
+    // button
+    this.$('.city__button').css({ opacity: 0, top: 50 })
+      .velocity({ opacity: 1, top: 0 }, { duration: 500, delay: 1300 });
+
+    this.$('.city__border--top, .city__border--bottom').css('width', 0)
+      .velocity({ width: '100%' }, { duration: 500, delay: 1400, display: 'block' });
+
+    this.$('.city__border--left, .city__border--right').css('height', 0)
+      .velocity({ height: '100%' }, { duration: 500, delay: 1400, display: 'block' });
   },
 
   render: function () {
     this.$el.html(this.template(this.model.toJSON()));
     this.setPosition();
-    // this.centerContent();
     return this;
   }
 });

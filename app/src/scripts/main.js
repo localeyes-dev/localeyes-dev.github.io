@@ -63,7 +63,7 @@ router.on('route:city', function (slug) {
 
   slug = slug ? cities.findWhere({ slug: slug }) ? slug : randomSlug() : randomSlug();
 
-  citiesView = new CitiesView({ collection: cities, current: slug });
+  citiesView = new CitiesView({ collection: cities, currentCity: slug });
   app.changeView(citiesView);
 });
 

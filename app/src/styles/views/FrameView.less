@@ -1,49 +1,131 @@
-.frame {
+@import '../mixins/transition';
 
-}
-
-.frame__direction {
-  background-color: #000000;
+// bars
+.frame__bar {
   position: absolute;
   z-index: 2;
 
-  -webkit-transition: background-color 1s;
-  -o-transition: background-color 1s;
-  transition: background-color 1s;
+  text-align: center;
+
+  .transition(background-color 1s);
 }
 
-.frame__direction.is-inactive {
-  background-color: #E5E5E5;
-}
-
-.frame__direction--north,
-.frame__direction--south {
-  height: 30px;
+.frame__bar--north,
+.frame__bar--south {
   width: 100%;
+  height: 40px;
 }
 
-.frame__direction--east,
-.frame__direction--west {
-  width: 30px;
+.frame__bar--east,
+.frame__bar--west {
+  width: 40px;
   height: 100%;
 }
 
-.frame__direction--north {
+.frame__bar--north {
   top: 0;
   left: 0;
 }
 
-.frame__direction--east {
+.frame__bar--east {
   top: 0;
   right: 0;
 }
 
-.frame__direction--south {
+.frame__bar--south {
   bottom: 0;
   left: 0;
 }
 
-.frame__direction--west {
+.frame__bar--west {
   top: 0;
   left: 0;
+}
+
+// parts
+.frame__bar__part {
+  position: absolute;
+
+  background-color: #fff;
+}
+
+.frame__bar__part--top,
+.frame__bar__part--bottom {
+  left: 0;
+
+  width: 100%;
+  height: 50%;
+}
+
+.frame__bar__part--left,
+.frame__bar__part--right {
+  top: 0;
+
+  width: 50%;
+  height: 100%;
+}
+
+.frame__bar__part--top {
+  top: -10px;
+}
+
+.frame__bar__part--bottom {
+  bottom: -10px;
+}
+
+.frame__bar__part--left {
+  left: -10px;
+}
+
+.frame__bar__part--right {
+  right: -10px;
+}
+
+// arrow
+.frame__bar__arrow {
+  position: absolute;
+
+  background-image: url('../../public/images/frame-arrows.png');
+}
+
+.frame__bar__arrow--north,
+.frame__bar__arrow--south {
+  left: 50%;
+
+  width: 20px;
+  height: 50px;
+  margin-left: -10px;
+}
+
+.frame__bar__arrow--east,
+.frame__bar__arrow--west {
+  top: 50%;
+
+  width: 50px;
+  height: 20px;
+  margin-top: -10px;
+}
+
+.frame__bar__arrow--north {
+  bottom: 0;
+
+  background-position: -20px 0;
+}
+
+.frame__bar__arrow--east {
+  left: 0;
+
+  background-position: -41px -20px;
+}
+
+.frame__bar__arrow--south {
+  top: 0;
+
+  background-position: 0 0;
+}
+
+.frame__bar__arrow--west {
+  right: 0;
+
+  background-position: -40px 0;
 }

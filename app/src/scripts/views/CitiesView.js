@@ -20,13 +20,13 @@ var CitiesView = Page.extend({
   template: '#citiesTemplate',
 
   events: {
-    'mouseover .cities__direction': 'onMouseOver',
-    'mouseout .cities__direction': 'onMouseOut',
-    'click .cities__direction': 'onClick'
+    'mouseover .frame__direction': 'onMouseOver',
+    'mouseout .frame__direction': 'onMouseOut',
+    'click .frame__direction': 'onClick'
   },
 
   onInitialize: function (options) {
-    _.extend(this, _.pick(options, 'current'));
+    _.extend(this, _.pick(options, 'currentCity'));
 
     this.onKeydown = _.bind(this.onKeydown, this);
     jQuery(document).on('keydown', this.onKeydown);
@@ -44,40 +44,56 @@ var CitiesView = Page.extend({
     jQuery(document).off('keydown', this.onKeydown);
   },
 
-  onKeydown: function (e) {
-    var directions = this.map.get(this.current).directions;
+  onMouseOver: function (e) {
+    var $el = jQuery(e.currentTarget);
+    var direction = $el.data('direction');
+    
+    if (!direction) {
+      return false;
+    }
+  
+    var directions = this.map.getDirections(this.currentCity);
 
+    if (direction === 'north' && directions.north) {
+      console.log('open north');
+    } else if (direction === 'east' && directions.east) {
+      console.log('open east');
+    } else if (direction === 'south' && directions.south) {
+      console.log('open south');
+    } else if (direction === 'west' && directions.west) {
+      console.log('open west');
+    }
+  },
+
+  onMouseOut: function (e) {
+
+  },
+
+  onKeydown: function (e) {
     var charCode = (e.charCode) ? e.charCode : e.keyCode;
 
-    switch (charCode) {
-      case 38:
-        console.log('up');
-        console.log(directions.north);
-        break;
+    var directions = this.map.getDirections(this.currentCity);
 
-      case 39:
-        console.log('right');
-        break;
-
-      case 40:
-        console.log('down');
-        break;
-
-      case 37:
-        console.log('left');
-        break;
+    if (charCode === 38 && directions.north) {
+      console.log('go north');
+    } else if (charCode === 39 && directions.east) {
+      console.log('go east');
+    } else if (charCode === 40 && directions.south) {
+      console.log('go south');
+    } else if (charCode === 37 && directions.west) {
+      console.log('go west');
     }
   },
 
   changeCity: function (slug) {
-    if (slug !== this.current && this.collection.findWhere({ slug: slug })) {
-      this.current = slug;
+    if (slug !== this.currentCity && this.collection.findWhere({ slug: slug })) {
+      this.currentCity = slug;
       this.updatePosition(true);
     }
   },
 
   updatePosition: function (transition) {
-    var position = this.map.get(this.current).position;
+    var position = this.map.getPosition(this.currentCity);
 
     if (!position) {
       return false;
@@ -94,7 +110,7 @@ var CitiesView = Page.extend({
       this.$('.cities__content').css(props);
     }
 
-    var directions = this.map.get(this.current).directions;
+    var directions = this.map.getDirections(this.currentCity);
     this.frame.model.set(directions);
   },
 

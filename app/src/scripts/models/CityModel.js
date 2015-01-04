@@ -7,7 +7,8 @@ var slug = require('../utils/slug');
 
 var CityModel = Backbone.Model.extend({
   defaults: {
-    'name': undefined,
+    'name': '',
+    'country': '',
     'slug': undefined,
     'north': undefined,
     'east': undefined,

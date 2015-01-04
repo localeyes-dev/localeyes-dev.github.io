@@ -9,78 +9,98 @@
 
   <div class="container"></div>
 
-  <!-- Templates -->
-
-  <!-- App -->
+  <!-- app -->
   <script type="text/template" id="appTemplate">
     <div class="app__content"></div>
   </script>
 
+  <!-- menu -->
   <script type="text/template" id="menuTemplate">
-    <li class="menu__item">
-      <a href="#/" class="menu__link"> Default </a>
-    </li>
-    <li class="menu__item">
-      <a href="#/help" class="menu__link"> Help </a>
-    </li>
-    <li class="menu__item">
-      <a href="#/locals" class="menu__link"> Locals </a>
-    </li>
-    <li class="menu__item">
-      <a href="#/city" class="menu__link"> Random city </a>
-    </li>
-    <li class="menu__item">
-      <a href="#/city/london" class="menu__link"> London </a>
-    </li>
+    <li class="menu__item"> <a href="#/" class="menu__link"> Default </a> </li>
+    <li class="menu__item"> <a href="#/help" class="menu__link"> Help </a> </li>
+    <li class="menu__item"> <a href="#/locals" class="menu__link"> Locals </a> </li>
+    <li class="menu__item"> <a href="#/city" class="menu__link"> Random city </a> </li>
+    <li class="menu__item"> <a href="#/city/london" class="menu__link"> London </a> </li>
   </script>
 
-  <!-- Loader -->
+  <!-- loader -->
   <script type="text/template" id="loaderTemplate">
-    <div class="loader">
-      <h1> Loader </h1>
-      <p class="loader__progress">0%</p>
-    </div>
+    <h1> Loader </h1>
+    <p class="loader__text"> 0% </p>
+    <div class="loader__bar"></div>
   </script>
 
+  <!-- help -->
   <script type="text/template" id="helpTemplate">
     <h1> Help </h1>
   </script>
 
-  <!-- Locals -->
+  <!-- locals -->
   <script type="text/template" id="localsTemplate">
     <h1> Locals </h1>
     <ul class="locals__content"></ul>
   </script>
 
+  <!-- locals cover -->
   <script type="text/template" id="coverTemplate">
-    <a href="#/local/<%= slug %>" class="local__name"> Local: <%= name %> </a>
+    <a href="#/local/<%= slug %>" class="cover__link"> Local: <%= name %> </a>
   </script>
 
-  <!-- Local -->
+  <!-- local -->
   <script type="text/template" id="localTemplate">
     <h1 class="local__name"> Local: <%= name %> </h1>
     <p class="local__bio"> <%= bio %> </p>
   </script>
 
-  <!-- Cities -->
+  <!-- cities -->
   <script type="text/template" id="citiesTemplate">
     <div class="cities__content"></div>
   </script>
 
+  <!-- city -->
   <script type="text/template" id="cityTemplate">
     <div class="city__content">
-      <h1> <%= name %> </h1> 
+      <h1 class="city__name"> <% print(name.toUpperCase()); %> </h1>
+      <h2 class="city__country"> <% print(country.toUpperCase()); %> </h2>
+      <div class="city__button">
+        <a href="#" class="city__link"> DECOUVRIR </a>
+        <div class="city__border city__border--top"></div>
+        <div class="city__border city__border--left"></div>
+        <div class="city__border city__border--bottom"></div>
+        <div class="city__border city__border--right"></div>
+      </div>
+      <div class="city__square city__square--topLeft"></div>
+      <div class="city__square city__square--topRight"></div>
+      <div class="city__square city__square--bottomLeft"></div>
+      <div class="city__square city__square--bottomRight"></div>
     </div>
   </script>
 
+  <!-- frame -->
   <script type="text/template" id="frameTemplate">
-    <a class="frame__direction frame__direction--north"></a>
-    <a class="frame__direction frame__direction--east"></a>
-    <a class="frame__direction frame__direction--south"></a>
-    <a class="frame__direction frame__direction--west"></a>
+    <a class="frame__bar frame__bar--north" data-direction="north">
+      <div class="frame__bar__arrow frame__bar__arrow--north"></div>
+      <div class="frame__bar__part frame__bar__part--left"></div>
+      <div class="frame__bar__part frame__bar__part--right"></div>
+    </a>
+    <a class="frame__bar frame__bar--east" data-direction="east">
+      <div class="frame__bar__arrow frame__bar__arrow--east"></div>
+      <div class="frame__bar__part frame__bar__part--top"></div>
+      <div class="frame__bar__part frame__bar__part--bottom"></div>
+    </a>
+    <a class="frame__bar frame__bar--south" data-direction="south">
+      <div class="frame__bar__arrow frame__bar__arrow--south"></div>
+      <div class="frame__bar__part frame__bar__part--left"></div>
+      <div class="frame__bar__part frame__bar__part--right"></div>
+    </a>
+    <a class="frame__bar frame__bar--west" data-direction="west">
+      <div class="frame__bar__arrow frame__bar__arrow--west"></div>
+      <div class="frame__bar__part frame__bar__part--top"></div>
+      <div class="frame__bar__part frame__bar__part--bottom"></div>
+    </a>
   </script>
 
-  <!-- Initial data -->
+  <!-- data -->
   <script type="text/javascript">
     window.locals = [
       {
@@ -99,6 +119,7 @@
     window.cities = [
       {
         "name": "London",
+        "country": "England",
         "north": null,
         "east": null,
         "south": "Paris",
@@ -106,6 +127,7 @@
       },
       {
         "name": "Berlin",
+        "country": "Germany",
         "north": null,
         "east": null,
         "south": null,
@@ -113,6 +135,7 @@
       },
       {
         "name": "Paris",
+        "country": "France",
         "north": "London",
         "east": "Berlin",
         "south": null,

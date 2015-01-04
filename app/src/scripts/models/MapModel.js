@@ -3,13 +3,18 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
 
+var CitiesCollection = require('../collections/CitiesCollection');
+
 var MapModel = Backbone.Model.extend({
   initialize: function (options) {
     Backbone.Model.prototype.initialize.call(this);
-    this.build(options.collection);
+    _.extend(this, _.pick(options, 'collection'));
+
+    this.collection = this.collection || new CitiesCollection();
+    this.build();
   },
 
-  build: function (collection) {
+  build: function () {
     var map = {};
 
     var directions = [
@@ -19,7 +24,7 @@ var MapModel = Backbone.Model.extend({
       { name: 'west', left: -1, top: 0 }
     ];
 
-    collection.each(function (city, i) {
+    this.collection.each(function (city, i) {
       var slug = city.get('slug');
       var position = i === 0 ? { left: 0, top: 0 } : map[slug] ? map[slug].position : undefined;
 
@@ -34,7 +39,7 @@ var MapModel = Backbone.Model.extend({
           map[target] = {};
           map[target].position = targetPosition;
 
-          var targetCity = collection.findWhere({ slug: target });
+          var targetCity = this.collection.findWhere({ slug: target });
           map[target].directions = {
             north: targetCity.get('northSlug'),
             east: targetCity.get('eastSlug'),
@@ -42,10 +47,18 @@ var MapModel = Backbone.Model.extend({
             west: targetCity.get('westSlug')
           };
         }
-      });
-    });
+      }, this);
+    }, this);
 
     this.set(map);
+  },
+
+  getPosition: function (slug) {
+    return this.get(slug).position;
+  },
+
+  getDirections: function (slug) {
+    return this.get(slug).directions;
   }
 });
 

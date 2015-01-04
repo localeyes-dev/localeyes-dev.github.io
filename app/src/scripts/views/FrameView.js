@@ -10,7 +10,7 @@ var FrameView = BetterView.extend({
   className: 'frame',
   template: _.template(jQuery('#frameTemplate').html()),
 
-  initialize: function () {
+  onInitialize: function () {
     this.listenTo(this.model, 'change', this.updateDirections);
   },
 
@@ -26,6 +26,18 @@ var FrameView = BetterView.extend({
       }
 
     }, this);
+  },
+
+  click: function (direction) {
+    var $link = this.$('.frame__bar--' + direction);
+
+    if (!$link.length) {
+      return false;
+    }
+
+    $link[0].click();
+
+    return false;
   },
 
   render: function () {

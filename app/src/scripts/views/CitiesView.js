@@ -21,8 +21,7 @@ var CitiesView = Page.extend({
 
   events: {
     'mouseover .frame__bar': 'onMouseOver',
-    'mouseout .frame__bar': 'onMouseOut',
-    'click .frame__bar': 'onClick'
+    'mouseout .frame__bar': 'onMouseOut'
   },
 
   onInitialize: function (options) {
@@ -105,20 +104,25 @@ var CitiesView = Page.extend({
   onKeydown: function (e) {
     var charCode = (e.charCode) ? e.charCode : e.keyCode;
 
+    var keys = { up: 38, right: 39, down: 40, left: 37 };
+
     var directions = this.map.getDirections(this.currentCity);
 
-    if (charCode === 38 && directions.north) {
-      console.log('go north');
-    } else if (charCode === 39 && directions.east) {
-      console.log('go east');
-    } else if (charCode === 40 && directions.south) {
-      console.log('go south');
-    } else if (charCode === 37 && directions.west) {
-      console.log('go west');
+    if (charCode === keys.up && directions.north) {
+      this.frame.click('north');
+    } else if (charCode === keys.right && directions.east) {
+      this.frame.click('east');
+    } else if (charCode === keys.down && directions.south) {
+      this.frame.click('south');
+    } else if (charCode === keys.left && directions.west) {
+      this.frame.click('west');
     }
   },
 
   changeCity: function (slug) {
+    var model = this.collection.findWhere({ slug: slug });
+    var view = _.findWhere(this.cities, { model: model });
+
     if (slug !== this.currentCity && this.collection.findWhere({ slug: slug })) {
       this.currentCity = slug;
       this.updatePosition(true);

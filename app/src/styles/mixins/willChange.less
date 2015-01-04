@@ -1,0 +1,8 @@
+@import './transform';
+
+.will-change (@value1,@value2:X,...) {
+  @value: ~`"@{arguments}".replace(/[\[\]]|\,\sX/g, '')`;
+
+  .transform(translate3d(0, 0, 0));
+  will-change: @value;
+}

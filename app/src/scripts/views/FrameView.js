@@ -16,7 +16,7 @@ var FrameView = BetterView.extend({
 
   updateDirections: function () {
     _.each(['north', 'east', 'south', 'west'], function (direction) {
-      var $el = this.$('.frame__direction--' + direction);
+      var $el = this.$('.frame__bar--' + direction);
 
       if (this.model.has(direction)) {
         var link = '#/city/' + this.model.get(direction);

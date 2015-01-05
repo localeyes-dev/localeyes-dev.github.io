@@ -18,6 +18,8 @@ var CityModel = Backbone.Model.extend({
     'eastSlug': undefined,
     'southSlug': undefined,
     'westSlug': undefined,
+    'local': undefined,
+    'localSlug': undefined,
     'paths': []
   },
 
@@ -26,6 +28,10 @@ var CityModel = Backbone.Model.extend({
 
     if (!this.has('slug')) {
       attrs.slug = slug(this.get('name'));
+    }
+
+    if (!this.has('localSlug') && this.has('local')) {
+      attrs.localSlug = slug(this.get('local'));
     }
 
     _.each(['north', 'east', 'south', 'west'], function (direction) {

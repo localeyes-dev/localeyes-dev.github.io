@@ -9,6 +9,7 @@ var CityModel = Backbone.Model.extend({
   defaults: {
     'name': '',
     'country': '',
+    'background': undefined,
     'slug': undefined,
     'north': undefined,
     'east': undefined,

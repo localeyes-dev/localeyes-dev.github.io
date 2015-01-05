@@ -19,6 +19,7 @@ var AppView = BetterView.extend({
   changeView: function (view) {
     var previousView = this.view || null;
     var nextView = view;
+    var nextViewName = nextView.name;
 
     var next = _.bind(function () {
       this.appendTo('.app__content', nextView);
@@ -27,10 +28,11 @@ var AppView = BetterView.extend({
     }, this);
 
     if (previousView) {
-      previousView.out(function () {
-        previousView.remove();
-        next();
-      });
+      previousView.out(
+        function () { next(); },
+        function () { previousView.remove(); },
+        nextViewName
+      );
     } else {
       next();
     }

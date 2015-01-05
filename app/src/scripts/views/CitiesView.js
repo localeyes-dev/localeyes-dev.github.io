@@ -120,77 +120,30 @@ var CitiesView = Page.extend({
   },
 
   in: function () {
+    this.frame.in();
     this.$el.css('opacity', 0)
       .velocity('stop')
       .velocity({ opacity: 1 }, { duration: 500 });
-
-    this.$('.frame__bar').each(function () {
-      var $el = jQuery(this);
-      var direction = $el.data('direction');
-      
-      if (!direction) {
-        return true;
-      }
-
-      var props = {};
-      var target = {};
-      var options = { duration: 300, delay: 200 };
-
-      if (direction === 'north') {
-        props.top = -40;
-        target.top = 0;
-      } else if (direction === 'east') {
-        props.right = -40;
-        target.right = 0;
-      } else if (direction === 'south') {
-        props.bottom = -40;
-        target.bottom = 0;
-      } else if (direction === 'west') {
-        props.left = -40;
-        target.left = 0;
-      }
-
-      $el.css(props)
-        .velocity('stop')
-        .velocity(target, options);
-    });
   },
 
-  out: function (done) {
-    this.$el.css('opacity', 1)
-      .velocity('stop')
-      .velocity({ opacity: 0 }, { duration: 500, delay: 200, complete: done });
+  out: function (done, complete) {
+    var model = this.collection.findWhere({ slug: this.currentCity });
+    var view = _.findWhere(this.cities, { model: model });
 
-    this.$('.frame__bar').each(function () {
-      var $el = jQuery(this);
-      var direction = $el.data('direction');
-      
-      if (!direction) {
-        return true;
-      }
-
-      var props = {};
-      var target = {};
-      var options = { duration: 300 };
-
-      if (direction === 'north') {
-        props.top = 0;
-        target.top = -40;
-      } else if (direction === 'east') {
-        props.right = 0;
-        target.right = -40;
-      } else if (direction === 'south') {
-        props.bottom = 0;
-        target.bottom = -40;
-      } else if (direction === 'west') {
-        props.left = 0;
-        target.left = -40;
-      }
-
-      $el.css(props)
-        .velocity('stop')
-        .velocity(target, options);
-    });
+    if (view) {
+      view.out();
+    }
+    
+    this.frame.out();
+    this.$el.velocity('stop')
+      .velocity({ opacity: 0 }, {
+        duration: 500,
+        delay: 200,
+        complete: function () {
+          complete();
+          done();
+        }
+      });
   },
 
   setCity: function () {

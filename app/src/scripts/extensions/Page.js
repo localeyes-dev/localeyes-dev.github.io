@@ -16,12 +16,15 @@ var Page = BetterView.extend({
     });
   },
 
-  out: function (done) {
+  out: function (done, complete) {
     this.$el.velocity({
       opacity: 0
     }, { 
       duration: 500,
-      complete: done
+      complete: function () {
+        done();
+        complete();
+      }
     });
   }
 });

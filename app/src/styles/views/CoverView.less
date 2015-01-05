@@ -1,7 +1,89 @@
-.cover {
+@import '../mixins/transform';
+@import '../mixins/transition';
 
+.cover {
+  position: relative;
+
+  overflow: hidden;
+
+  height: 240px;
+
+  opacity: 0;
+  border-bottom: 1px solid #191919;
+  background-color: #424242;
 }
 
+// link
 .cover__link {
-  
+  position: absolute;
+  z-index: 3;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  text-align: center;
+  text-decoration: none;
+
+  opacity: .3;
+
+  .transition(opacity .7s);
+}
+
+.cover:hover .cover__link {
+  opacity: 1;
+}
+
+// text
+.cover__text {
+  font-family: 'localeyes', 'sans-serif';
+  font-size: 104px;
+  font-weight: lighter;
+  line-height: 240px;
+
+  margin: 0;
+  padding: 0;
+
+  letter-spacing: -40px;
+
+  color: #fff;
+}
+
+// overlay
+.cover__overlay {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  opacity: 1;
+  background-color: #000;
+}
+
+// background
+.cover__background {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  opacity: .4;
+  background-position: center center;
+
+  .background-size(cover);
+  .transform(scale(1.1));
+  .transition(opacity .5s, transform 1s);
+}
+
+.cover:hover .cover__background {
+  opacity: 1;
+
+  .transform(scale(1));
 }

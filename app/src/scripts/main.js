@@ -37,7 +37,7 @@ router.on('route:help', function () {
 });
 
 router.on('route:locals', function () {
-  app.changeView(new LocalsView({ collection: Store.getLocals() }));
+  app.changeView(new LocalsView({ collection: Store.getCities() }));
 });
 
 router.on('route:local', function (slug) {

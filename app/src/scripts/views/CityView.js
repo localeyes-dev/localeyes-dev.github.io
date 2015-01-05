@@ -81,6 +81,15 @@ var CityView = BetterView.extend({
           .velocity({ fillOpacity: 1, strokeOpacity: 0 }, { duration: 500 });
       });
     });
+
+    // background
+    this.$('.city__background').velocity({ scale: 1.2 }, 0)
+      .velocity({ scale: 1 }, { duration: 1500 });
+  },
+
+  out: function () {
+    this.$('.city__background')
+      .velocity({ scale: 1.2 }, { duration: 1000 });
   },
 
   render: function () {

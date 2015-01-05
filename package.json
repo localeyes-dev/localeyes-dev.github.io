@@ -22,17 +22,30 @@
     "jquery": "./node_modules/jquery/dist/jquery.js",
     "underscore": "./node_modules/underscore/underscore.js",
     "backbone": "./node_modules/backbone/backbone.js",
-    "velocity": "./node_modules/velocity-animate/velocity.js"
+    "velocity": "./node_modules/velocity-animate/velocity.js",
+    "videojs": "./node_modules/video.js/dist/video-js/video.js",
+    "videojs.youtube": "./node_modules/videojs-youtube/dist/vjs.youtube.js"
   },
   "browserify-shim": {
     "jquery": {
       "exports": "global:jQuery",
-      "depends": ["velocity"]
+      "depends": [
+        "velocity"
+      ]
     },
     "underscore": "global:_",
     "backbone": {
       "exports": "global:Backbone",
-      "depends": ["jquery", "underscore"]
+      "depends": [
+        "jquery",
+        "underscore"
+      ]
+    },
+    "videojs": {
+      "exports": "global:videojs",
+      "depends": [
+        "videojs.youtube"
+      ]
     }
   },
   "dependencies": {
@@ -41,6 +54,8 @@
     "normalize.less": "^1.0.0",
     "promise": "^6.0.1",
     "underscore": "^1.7.0",
-    "velocity-animate": "^1.1.0"
+    "velocity-animate": "^1.1.0",
+    "video.js": "^4.11.3",
+    "videojs-youtube": "^1.2.8"
   }
 }
